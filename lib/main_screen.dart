@@ -76,65 +76,72 @@ class ToDoItem extends StatelessWidget {
   final dynamic todoKey;
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: ValueKey(todoKey),
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction) => box.delete(todoKey),
-      dismissThresholds: {DismissDirection.endToStart: 0.3},
-      background: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        color: Colors.red,
-        child: Icon(Icons.delete,color: Colors.white,),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-           MaterialPageRoute(builder:
-            (context) => TodoFormScreen(toDoModel: todo!),));
-        },
-        child: Container(
-          padding: EdgeInsets.all(12),
-          margin: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Color(todo!.color.code).withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8)
+    return GestureDetector(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(todo!.desciption),
+          backgroundColor: Colors.black,
+          action: SnackBarAction(label: 'edit', onPressed: () => 
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => TodoFormScreen(toDoModel: todo!),)),),),
+          );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12),
+        child: Dismissible(
+          key: ValueKey(todoKey),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) => box.delete(todoKey),
+          dismissThresholds: {DismissDirection.endToStart: 0.3},
+          background: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            color: Colors.red,
+            child: Icon(Icons.delete,color: Colors.white,),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.edit_note, size: 24,color: Color(todo!.color.code),),
-                  SizedBox(
-                  width: 4,),
-                  Text(
-                    todo!.title,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Color(todo!.color.code),
+          child: Container(
+            padding: EdgeInsets.all(12),
+            margin: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Color(todo!.color.code).withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.edit_note, size: 24,color: Color(todo!.color.code),),
+                    SizedBox(
+                    width: 4,),
+                    Text(
+                      todo!.title,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Color(todo!.color.code),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              if(todo!.desciption.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(left: 28,top: 4),
-                child: Text(
-                  todo!.desciption,
-                  textAlign: TextAlign.justify,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                  ],
                 ),
-              ),
-             
-              Divider()
-            ],
+                if(todo!.desciption.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(left: 28,top: 4),
+                  child: Text(
+                    todo!.desciption,
+                    textAlign: TextAlign.justify,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+               
+                Divider()
+              ],
+            ),
           ),
-        ),
+          ),
       ),
-      );
+    );
       
   
   }
