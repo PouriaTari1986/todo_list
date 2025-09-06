@@ -80,7 +80,6 @@ class ToDoItem extends StatelessWidget {
       key: ValueKey(todoKey),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) => box.delete(todoKey),
-      
       dismissThresholds: {DismissDirection.endToStart: 0.3},
       background: Container(
         alignment: Alignment.center,
